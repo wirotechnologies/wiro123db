@@ -1,0 +1,1543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.2-alpha" last-position="0,0" last-zoom="0.65"
+	 default-schema="public" default-owner="postgres">
+<database name="wterp_nodes" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="products">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1180" y="200"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="active">
+		<type name="bool" length="0"/>
+	</column>
+	<column name="description">
+		<type name="varchar" length="258"/>
+	</column>
+	<column name="value">
+		<type name="numeric" length="10" precision="2"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="products_pk" type="pk-constr" table="public.products">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_product_types" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="product_types_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="payment_receipts">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="460" y="40"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="transaction_number">
+		<type name="varchar" length="48"/>
+	</column>
+	<column name="receipt_date">
+		<type name="timestamp" length="48"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="payment_receipts_pk" type="pk-constr" table="public.payment_receipts">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="payments">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="820" y="40"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="value">
+		<type name="numeric" length="10" precision="2"/>
+	</column>
+	<column name="note">
+		<type name="varchar" length="258"/>
+	</column>
+	<column name="pay_date">
+		<type name="date" length="0"/>
+	</column>
+	<column name="file_path">
+		<type name="varchar" length="78"/>
+	</column>
+	<column name="file_name">
+		<type name="varchar" length="78"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="payments_pk" type="pk-constr" table="public.payments">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_accounts" index="3"/>
+		<object name="id_contracts" index="1"/>
+		<object name="id_payment_receipts" index="2"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="accounts_fk" index="3"/>
+		<object name="contracts_fk" index="2"/>
+		<object name="payment_receipts_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="customers">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1920" y="540"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="first_name">
+		<type name="varchar" length="258"/>
+	</column>
+	<column name="last_name">
+		<type name="varchar" length="258"/>
+	</column>
+	<column name="address">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="phone">
+		<type name="varchar" length="50"/>
+	</column>
+	<column name="email" not-null="true">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="reference_1">
+		<type name="varchar" length="58"/>
+	</column>
+	<column name="phone_reference_1">
+		<type name="varchar" length="58"/>
+	</column>
+	<column name="docid">
+		<type name="varchar" length="58"/>
+	</column>
+	<column name="coordinates">
+		<type name="varchar" length="58"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="unique_customer_docid" type="uq-constr" table="public.customers">
+		<columns names="docid" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="unique_customer_email" type="uq-constr" table="public.customers">
+		<columns names="email" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="customers_pk" type="pk-constr" table="public.customers">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_docid_types" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="docid_types_fk" index="3"/>
+	</customidxs>
+</table>
+
+<table name="invoices">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="860" y="920"/>
+	<column name="id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="invoice_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="total_value">
+		<type name="numeric" length="12" precision="2"/>
+	</column>
+	<column name="deadline_pay">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="value_past_due">
+		<type name="numeric" length="12" precision="2"/>
+	</column>
+	<column name="new_balance">
+		<type name="numeric" length="12" precision="2"/>
+	</column>
+	<column name="reference_payment">
+		<type name="numeric" length="20"/>
+	</column>
+	<column name="suspension_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="accounts_number_past_due">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="invoices_pk" type="pk-constr" table="public.invoices">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_employees" index="9"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="employees_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="employees">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="280" y="820"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="first_name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="last_name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="userppoe">
+		<type name="varchar" length="58"/>
+	</column>
+	<column name="email">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="password">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="employees_pk" type="pk-constr" table="public.employees">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="employee_levels">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="300" y="1380"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="description">
+		<type name="varchar" length="258"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="employee_levels_pk" type="pk-constr" table="public.employee_levels">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="contract_products">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="820" y="380"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="deactivation">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="cut_day">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="contracts_services_pk" type="pk-constr" table="public.contract_products">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_contracts" index="4"/>
+		<object name="id_products" index="3"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="contracts_fk" index="1"/>
+		<object name="products_fk" index="2"/>
+	</customidxs>
+</table>
+
+<table name="sy_countries">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2680" y="620"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="code">
+		<type name="varchar" length="3"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="sy_countries_pk" type="pk-constr" table="public.sy_countries">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="unique_country_name" type="uq-constr" table="public.sy_countries">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="sy_cities">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2760" y="120"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="sy_cities_pk" type="pk-constr" table="public.sy_cities">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_sy_states" index="2"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="sy_states_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="sy_neighborhoods">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2360" y="80"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="sy_neighborhoods_pk" type="pk-constr" table="public.sy_neighborhoods">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_sy_cities" index="2"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="sy_cities_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="docid_types">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2320" y="680"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="description">
+		<type name="varchar" length="258"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="unique_docid_type_name" type="uq-constr" table="public.docid_types">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="docid_types_pk" type="pk-constr" table="public.docid_types">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="socioeconomic_levels">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2320" y="260"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="description">
+		<type name="varchar" length="258"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="unique_socioeconomic_level_name" type="uq-constr" table="public.socioeconomic_levels">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="socioeconomic_levels_pk" type="pk-constr" table="public.socioeconomic_levels">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_socioeconomic_levels_iva" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="socioeconomic_levels_iva_fk" index="2"/>
+	</customidxs>
+</table>
+
+<table name="sy_states">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3000" y="380"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="sy_states_pk" type="pk-constr" table="public.sy_states">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_sy_countries" index="2"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="sy_countries_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="sy_countries_has_many_sy_states" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#fc02ff"
+	 src-table="public.sy_countries"
+	 dst-table="public.sy_states"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sy_states_has_many_sy_cities" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#fc02ff"
+	 src-table="public.sy_states"
+	 dst-table="public.sy_cities"
+	 src-required="false" dst-required="false"/>
+
+<constraint name="unique_state_name_country" type="uq-constr" table="public.sy_states">
+	<columns names="name,id_sy_countries" ref-type="src-columns"/>
+</constraint>
+
+<constraint name="unique_city_name_state" type="uq-constr" table="public.sy_cities">
+	<columns names="name,id_sy_states" ref-type="src-columns"/>
+</constraint>
+
+<table name="socioeconomic_levels_iva">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2340" y="480"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="iva">
+		<type name="numeric" length="3" precision="2"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="socioeconomic_levels_iva_pk" type="pk-constr" table="public.socioeconomic_levels_iva">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="product_types">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Son los tipos de productos servicios, articulos etc
+Are the kinds of products like services, items, etc]]></comment>
+	<position x="1180" y="40"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="description">
+		<type name="varchar" length="258"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="unique_type_name" type="uq-constr" table="public.product_types">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="product_types_pk" type="pk-constr" table="public.product_types">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="discounts">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="520" y="540"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="value">
+		<type name="numeric" length="12" precision="2"/>
+	</column>
+	<column name="discount_created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="end_discount">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="percentage" default-value="false">
+		<type name="bool" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="valid_until">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="discounts_pk" type="pk-constr" table="public.discounts">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_employees" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="employees_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="wterp_authorized_num_invoices">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1240" y="1180"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="first_number">
+		<type name="numeric" length="12" precision="0"/>
+	</column>
+	<column name="last_number">
+		<type name="numeric" length="12" precision="0"/>
+	</column>
+	<column name="current_number">
+		<type name="numeric" length="12"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="wterp_authorized_num_pk" type="pk-constr" table="public.wterp_authorized_num_invoices">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="contracts">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1600" y="400"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="number">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="past_due_days">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="balance">
+		<type name="numeric" length="12" precision="2"/>
+	</column>
+	<column name="start">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="last_payment">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="last_invoice">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="number_unique" type="uq-constr" table="public.contracts">
+		<columns names="number" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="contracts_pk" type="pk-constr" table="public.contracts">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_contract_types" index="2"/>
+		<object name="id_customers" index="3"/>
+		<object name="id_recurrence" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="contract_types_fk" index="3"/>
+		<object name="customers_fk" index="2"/>
+		<object name="recurrence_fk" index="4"/>
+	</customidxs>
+</table>
+
+<table name="contract_types">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1620" y="260"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="description">
+		<type name="varchar" length="256"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="contract_type_pk" type="pk-constr" table="public.contract_types">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="recurrence">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1260" y="460"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="description">
+		<type name="varchar" length="512"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="recurrence_pk" type="pk-constr" table="public.recurrence">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="contract_type_has_many_contracts" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#f5a160"
+	 src-table="public.contract_types"
+	 dst-table="public.contracts"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="docid_types_has_many_customers" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#d7bdac"
+	 src-table="public.docid_types"
+	 dst-table="public.customers"
+	 src-required="false" dst-required="false"/>
+
+<table name="contracts_contract_status">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1600" y="700"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="note">
+		<type name="varchar" length="512"/>
+	</column>
+	<column name="active" default-value="true">
+		<type name="bool" length="0"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="contract_status_pk" type="pk-constr" table="public.contracts_contract_status">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_contract_status" index="3"/>
+		<object name="id_contracts" index="5"/>
+		<object name="id_status_causes" index="4"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="contract_status_fk" index="2"/>
+		<object name="contracts_fk" index="3"/>
+		<object name="status_causes_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="contract_status">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1900" y="1040"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="description">
+		<type name="varchar" length="256"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="contract_status_type_pk" type="pk-constr" table="public.contract_status">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="status_causes">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1620" y="940"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="status_causes_pk" type="pk-constr" table="public.status_causes">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="status_causes_has_many_customer_status" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#59c3d6"
+	 src-table="public.status_causes"
+	 dst-table="public.contracts_contract_status"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="contract_status_type_has_many_contract_status" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#a2bee3"
+	 src-table="public.contract_status"
+	 dst-table="public.contracts_contract_status"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="customers_has_many_contracts" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#44b110"
+	 src-table="public.customers"
+	 dst-table="public.contracts"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="contracts_has_many_contract_status" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#bf7310"
+	 src-table="public.contracts"
+	 dst-table="public.contracts_contract_status"
+	 src-required="false" dst-required="false"/>
+
+<table name="addresses">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1960" y="40"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="address1">
+		<type name="varchar" length="512"/>
+	</column>
+	<column name="address2">
+		<type name="varchar" length="512"/>
+	</column>
+	<column name="zipcode">
+		<type name="numeric" length="12"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="addresses_pk" type="pk-constr" table="public.addresses">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_socioeconomic_levels" index="5"/>
+		<object name="id_sy_neighborhoods" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="socioeconomic_levels_fk" index="2"/>
+		<object name="sy_neighborhoods_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="sy_cities_has_many_sy_neighborhoods" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#fc02ff"
+	 src-table="public.sy_cities"
+	 dst-table="public.sy_neighborhoods"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="sy_neighborhoods_has_many_addresses" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#fc02ff"
+	 src-table="public.sy_neighborhoods"
+	 dst-table="public.addresses"
+	 src-required="false" dst-required="false"/>
+
+<table name="contract_address">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1620" y="20"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="active" default-value="true">
+		<type name="bool" length="0"/>
+	</column>
+	<column name="start_active">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="end_active">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="contract_address_pk" type="pk-constr" table="public.contract_address">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_addresses" index="1"/>
+		<object name="id_contracts" index="2"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="addresses_fk" index="0"/>
+		<object name="contracts_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="addresses_has_many_contract_address" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#fc02ff"
+	 src-table="public.addresses"
+	 dst-table="public.contract_address"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="contracts_has_many_contract_address" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#fc02ff"
+	 src-table="public.contracts"
+	 dst-table="public.contract_address"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="socioeconomic_levels_iva_has_many_socioeconomic_levels" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#578e07"
+	 src-table="public.socioeconomic_levels_iva"
+	 dst-table="public.socioeconomic_levels"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="socioeconomic_levels_has_many_addresses" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#a5fe45"
+	 src-table="public.socioeconomic_levels"
+	 dst-table="public.addresses"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="product_types_has_many_products" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#97b34f"
+	 src-table="public.product_types"
+	 dst-table="public.products"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="products_has_many_contract_products" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#146e4e"
+	 src-table="public.products"
+	 dst-table="public.contract_products"
+	 src-required="false" dst-required="false"/>
+
+<table name="product_contract_discounts">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="400" y="240"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="product_contract_discounts_pk" type="pk-constr" table="public.product_contract_discounts">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_contract_products" index="1"/>
+		<object name="id_discounts" index="2"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="contract_products_fk" index="1"/>
+		<object name="discounts_fk" index="2"/>
+	</customidxs>
+</table>
+
+<relationship name="contract_products_has_many_product_contract_discounts" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#b96cb3"
+	 src-table="public.contract_products"
+	 dst-table="public.product_contract_discounts"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="discounts_has_many_product_contract_discounts" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#7466c1"
+	 src-table="public.discounts"
+	 dst-table="public.product_contract_discounts"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="contracts_has_many_contract_products" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#67a383"
+	 src-table="public.contracts"
+	 dst-table="public.contract_products"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="recurrence_has_many_contracts" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c09a84"
+	 src-table="public.recurrence"
+	 dst-table="public.contracts"
+	 src-required="false" dst-required="false"/>
+
+<table name="customers_address">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1940" y="300"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="active" default-value="true">
+		<type name="bool" length="0"/>
+	</column>
+	<column name="start_active">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="end_active">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="customers_address_pk" type="pk-constr" table="public.customers_address">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_addresses" index="1"/>
+		<object name="id_customers" index="2"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="addresses_fk" index="2"/>
+		<object name="customers_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="customers_has_many_customers_address" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#e69e70"
+	 src-table="public.customers"
+	 dst-table="public.customers_address"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="addresses_has_many_customers_address" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#ac7434"
+	 src-table="public.addresses"
+	 dst-table="public.customers_address"
+	 src-required="false" dst-required="false"/>
+
+<table name="products_invoice">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="900" y="680"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="products_invoice_pk" type="pk-constr" table="public.products_invoice">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_invoices" index="2"/>
+		<object name="id_products" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="invoices_fk" index="1"/>
+		<object name="products_fk" index="2"/>
+	</customidxs>
+</table>
+
+<relationship name="invoices_has_many_products_invoice" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#d3a6da"
+	 src-table="public.invoices"
+	 dst-table="public.products_invoice"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="products_has_many_products_invoice" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#547631"
+	 src-table="public.products"
+	 dst-table="public.products_invoice"
+	 src-required="false" dst-required="false"/>
+
+<table name="employees_employee_levels">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="280" y="1100"/>
+	<column name="id" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="employees_levels_pk" type="pk-constr" table="public.employees_employee_levels">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_employee_levels" index="1"/>
+		<object name="id_employees" index="2"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="employee_levels_fk" index="1"/>
+		<object name="employees_fk" index="2"/>
+	</customidxs>
+</table>
+
+<relationship name="employee_levels_has_many_employees_employee_levels" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#39dd58"
+	 src-table="public.employee_levels"
+	 dst-table="public.employees_employee_levels"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="employees_has_many_employees_employee_levels" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#996633"
+	 src-table="public.employees"
+	 dst-table="public.employees_employee_levels"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="employees_has_many_invoices" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#80ff7d"
+	 src-table="public.employees"
+	 dst-table="public.invoices"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="employees_has_many_discounts" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#26889a"
+	 src-table="public.employees"
+	 dst-table="public.discounts"
+	 src-required="false" dst-required="false"/>
+
+<table name="contracts_employees">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1260" y="680"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="note">
+		<type name="varchar" length="512"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="contracts_employees_pk" type="pk-constr" table="public.contracts_employees">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_contracts" index="2"/>
+		<object name="id_employees" index="1"/>
+		<object name="id_events" index="3"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="contracts_fk" index="2"/>
+		<object name="employees_fk" index="1"/>
+		<object name="events_fk" index="3"/>
+	</customidxs>
+</table>
+
+<relationship name="employees_has_many_contracts_employees" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#b264bb"
+	 src-table="public.employees"
+	 dst-table="public.contracts_employees"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="contracts_has_many_contracts_employees" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#7eed43"
+	 src-table="public.contracts"
+	 dst-table="public.contracts_employees"
+	 src-required="false" dst-required="false"/>
+
+<table name="events">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1580" y="1100"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="creted_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="events_pk" type="pk-constr" table="public.events">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="events_has_many_contracts_employees" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c7ee84"
+	 src-table="public.events"
+	 dst-table="public.contracts_employees"
+	 src-required="false" dst-required="false"/>
+
+<table name="invoices_employees">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="860" y="1280"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="note">
+		<type name="varchar" length="512"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="invoices_employees_pk" type="pk-constr" table="public.invoices_employees">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_employees" index="1"/>
+		<object name="id_events" index="3"/>
+		<object name="id_invoices" index="2"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="employees_fk" index="1"/>
+		<object name="events_fk" index="3"/>
+		<object name="invoices_fk" index="2"/>
+	</customidxs>
+</table>
+
+<relationship name="employees_has_many_invoices_employees" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#d446fa"
+	 src-table="public.employees"
+	 dst-table="public.invoices_employees"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="invoices_has_many_invoices_employees" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#285bb8"
+	 src-table="public.invoices"
+	 dst-table="public.invoices_employees"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="events_has_many_invoices_employees" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#e453b4"
+	 src-table="public.events"
+	 dst-table="public.invoices_employees"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="payment_receipts_has_many_payments" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#410352"
+	 src-table="public.payment_receipts"
+	 dst-table="public.payments"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="contracts_has_many_payments" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#e50d77"
+	 src-table="public.contracts"
+	 dst-table="public.payments"
+	 src-required="false" dst-required="false"/>
+
+<table name="accounts">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Son las las posibles cuentas donde puede ingresar un pago Ej: Banco Bancolombia, Banco Davivienda, Caja.
+Are the possibles accounts where can input the payment. Example: Banks name1, bank name2, cash ]]></comment>
+	<position x="100" y="180"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="accounts_pk" type="pk-constr" table="public.accounts">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="accounts_has_many_payments" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#5efc5e"
+	 src-table="public.accounts"
+	 dst-table="public.payments"
+	 src-required="false" dst-required="false"/>
+
+<table name="product_contract_discounts_employees">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="20" y="460"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="product_contract_discounts_employees_pk" type="pk-constr" table="public.product_contract_discounts_employees">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_employees" index="2"/>
+		<object name="id_events" index="3"/>
+		<object name="id_product_contract_discounts" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="employees_fk" index="2"/>
+		<object name="events_fk" index="3"/>
+		<object name="product_contract_discounts_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="product_contract_discounts_has_many_product_contract_discounts_" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#58b0c8"
+	 src-table="public.product_contract_discounts"
+	 dst-table="public.product_contract_discounts_employees"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="employees_has_many_product_contract_discounts_employees" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#058320"
+	 src-table="public.employees"
+	 dst-table="public.product_contract_discounts_employees"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="events_has_many_product_contract_discounts_employees" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#fc0107"
+	 src-table="public.events"
+	 dst-table="public.product_contract_discounts_employees"
+	 src-required="false" dst-required="false"/>
+
+<table name="companies">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1460" y="1420"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="docid">
+		<type name="varchar" length="128"/>
+	</column>
+	<column name="created_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_date">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="companies_pk" type="pk-constr" table="public.companies">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="companies_has_many_customers" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#7c03ef"
+	 src-table="public.companies"
+	 dst-table="public.customers"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="companies_has_many_employees" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#84c634"
+	 src-table="public.companies"
+	 dst-table="public.employees"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
