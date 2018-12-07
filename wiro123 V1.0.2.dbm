@@ -3,9 +3,9 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.2-alpha" last-position="0,0" last-zoom="0.65"
+<dbmodel pgmodeler-ver="0.9.2-alpha" last-position="127,0" last-zoom="0.65"
 	 default-schema="public" default-owner="postgres">
-<database name="wterp_nodes" is-template="false" allow-conns="true">
+<database name="wiro123" is-template="false" allow-conns="true">
 </database>
 
 <schema name="public" fill-color="#e1e1e1" sql-disabled="true">
@@ -180,7 +180,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="invoices">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="860" y="920"/>
+	<position x="1140" y="900"/>
 	<column name="id" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
@@ -234,6 +234,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
+	<column name="docid">
+		<type name="varchar" length="24"/>
+	</column>
 	<column name="first_name">
 		<type name="varchar" length="128"/>
 	</column>
@@ -258,6 +261,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="employees_pk" type="pk-constr" table="public.employees">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_branches" index="9"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="branches_fk" index="1"/>
+	</customidxs>
 </table>
 
 <table name="employee_levels">
@@ -614,10 +625,10 @@ Are the kinds of products like services, items, etc]]></comment>
 	</customidxs>
 </table>
 
-<table name="wterp_authorized_num_invoices">
+<table name="authorized_num_invoices">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1240" y="1180"/>
+	<position x="2280" y="1200"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -636,7 +647,7 @@ Are the kinds of products like services, items, etc]]></comment>
 	<column name="updated_date">
 		<type name="timestamp" length="0"/>
 	</column>
-	<constraint name="wterp_authorized_num_pk" type="pk-constr" table="public.wterp_authorized_num_invoices">
+	<constraint name="authorized_num_invoices_pk" type="pk-constr" table="public.authorized_num_invoices">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -758,7 +769,7 @@ Are the kinds of products like services, items, etc]]></comment>
 	 dst-table="public.customers"
 	 src-required="false" dst-required="false"/>
 
-<table name="contracts_contract_status">
+<table name="contracts_contract_statuses">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="1600" y="700"/>
@@ -777,27 +788,27 @@ Are the kinds of products like services, items, etc]]></comment>
 	<column name="updated_date">
 		<type name="timestamp" length="0"/>
 	</column>
-	<constraint name="contract_status_pk" type="pk-constr" table="public.contracts_contract_status">
+	<constraint name="contract_status_pk" type="pk-constr" table="public.contracts_contract_statuses">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="id_contract_status" index="3"/>
+		<object name="id_contract_statuses" index="7"/>
 		<object name="id_contracts" index="5"/>
 		<object name="id_status_causes" index="4"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="contract_status_fk" index="2"/>
+		<object name="contract_statuses_fk" index="2"/>
 		<object name="contracts_fk" index="3"/>
 		<object name="status_causes_fk" index="1"/>
 	</customidxs>
 </table>
 
-<table name="contract_status">
+<table name="contract_statuses">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1900" y="1040"/>
+	<position x="2000" y="1040"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -813,7 +824,7 @@ Are the kinds of products like services, items, etc]]></comment>
 	<column name="updated_date">
 		<type name="timestamp" length="0"/>
 	</column>
-	<constraint name="contract_status_type_pk" type="pk-constr" table="public.contract_status">
+	<constraint name="contract_status_type_pk" type="pk-constr" table="public.contract_statuses">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -821,7 +832,7 @@ Are the kinds of products like services, items, etc]]></comment>
 <table name="status_causes">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1620" y="940"/>
+	<position x="1560" y="960"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -845,16 +856,16 @@ Are the kinds of products like services, items, etc]]></comment>
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#59c3d6"
 	 src-table="public.status_causes"
-	 dst-table="public.contracts_contract_status"
+	 dst-table="public.contracts_contract_statuses"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="contract_status_type_has_many_contract_status" type="rel1n"
+<relationship name="contract_status_type_has_many_contract_statuses" type="rel1n"
 	 src-col-pattern="{sc}_{st}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#a2bee3"
-	 src-table="public.contract_status"
-	 dst-table="public.contracts_contract_status"
+	 src-table="public.contract_statuses"
+	 dst-table="public.contracts_contract_statuses"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="customers_has_many_contracts" type="rel1n"
@@ -872,7 +883,7 @@ Are the kinds of products like services, items, etc]]></comment>
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#bf7310"
 	 src-table="public.contracts"
-	 dst-table="public.contracts_contract_status"
+	 dst-table="public.contracts_contract_statuses"
 	 src-required="false" dst-required="false"/>
 
 <table name="addresses">
@@ -1522,22 +1533,71 @@ Are the possibles accounts where can input the payment. Example: Banks name1, ba
 	</constraint>
 </table>
 
-<relationship name="companies_has_many_customers" type="rel1n"
+<table name="branches">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2000" y="1300"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="128"/>
+	</column>
+	<constraint name="branches_pk" type="pk-constr" table="public.branches">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_companies" index="2"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="companies_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="companies_has_many_branch" type="rel1n"
 	 src-col-pattern="{sc}_{st}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
-	 custom-color="#7c03ef"
+	 custom-color="#2337d0"
 	 src-table="public.companies"
-	 dst-table="public.customers"
+	 dst-table="public.branches"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="companies_has_many_employees" type="rel1n"
+<relationship name="branches_has_many_customers" type="rel1n"
 	 src-col-pattern="{sc}_{st}"
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
-	 custom-color="#84c634"
-	 src-table="public.companies"
+	 custom-color="#6ead64"
+	 src-table="public.branches"
+	 dst-table="public.customers"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="-36.2767" y="11.3294"/>
+	</label>
+</relationship>
+
+<relationship name="branches_has_many_contracts" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#fe2d86"
+	 src-table="public.branches"
+	 dst-table="public.contracts"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="branches_has_many_employees" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#2e0d33"
+	 src-table="public.branches"
 	 dst-table="public.employees"
 	 src-required="false" dst-required="false"/>
+
+<constraint name="unique_invoices" type="uq-constr" table="public.employees">
+	<columns names="id_branches,docid" ref-type="src-columns"/>
+</constraint>
 
 </dbmodel>
